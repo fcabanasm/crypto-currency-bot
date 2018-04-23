@@ -2,12 +2,12 @@ require 'httparty'
 require './helper'
 
 class Surbtc
-  
+
   def self.get_eth_market
     response = HTTParty.get("https://www.surbtc.com/api/v2/markets/eth-clp/ticker.json")
     return response
   end
-  
+
   def self.get_eth_price
     response = Surbtc.get_eth_market
     if response && response.parsed_response
@@ -24,7 +24,7 @@ class Surbtc
     end
     return @last_price
   end
-  
+
   def self.get_btc_info(bot, message)
     response = HTTParty.get("https://www.surbtc.com/api/v2/markets/btc-clp/ticker.json")
     if response && response.parsed_response
@@ -41,7 +41,7 @@ class Surbtc
     end
     return @last_price
   end
-  
+
   def self.get_bch_info(bot, message)
     response = HTTParty.get("https://www.surbtc.com/api/v2/markets/bch-clp/ticker.json")
     if response && response.parsed_response
@@ -58,10 +58,10 @@ class Surbtc
     end
     return @last_price
   end
-  
+
   def self.formated_response(response)
     @formated_response = ""
-    @data = response.parsed_response["ticker"]
+    @data = response.parsed_response["ticker"] if response.code == 200
     if @data
       @last_price = @data["last_price"][0].to_i
       @compra = @data["min_ask"][0].to_i
@@ -69,7 +69,7 @@ class Surbtc
       @volumen = @data["volume"][0].to_f
       @price_variation_24h = @data["price_variation_24h"].to_f
       @price_variation_7d = @data["price_variation_7d"].to_f
-      
+
       @formated_response += "Última orden: #{Helper.number_to_currency(@last_price)}\n"
       @formated_response += "Compra: #{Helper.number_to_currency(@compra)}\n"
       @formated_response += "Venta: #{Helper.number_to_currency(@venta)}\n"
