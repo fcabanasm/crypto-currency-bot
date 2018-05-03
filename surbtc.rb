@@ -10,15 +10,16 @@ class Surbtc
 
   def self.get_eth_price
     response = Surbtc.get_eth_market
-    if response && response.parsed_response
+    if response && response.code == 200
       @data = response.parsed_response["ticker"]
-      @last_price = @data["max_bid"][0].to_i
+      @last_price = @data["max_bid"][0].to_i == 0 ? nil : @data["max_bid"][0].to_i
      # "last_price"=>["202201.0", "CLP"],
      # "min_ask"=>["206990.0", "CLP"],
      # "max_bid"=>["202201.0", "CLP"],
      # "volume"=>["95.194497718", "ETH"],
      # "price_variation_24h"=>"0.047",
      # "price_variation_7d"=>"0.032"
+
     else
       @last_price = nil
     end

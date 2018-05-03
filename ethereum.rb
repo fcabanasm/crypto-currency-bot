@@ -1,5 +1,6 @@
 require './cryptomkt'
 require './surbtc'
+require './cryptocompare'
 require './helper'
 
 class Ethereum
@@ -8,7 +9,7 @@ class Ethereum
     unless current_eth
       current_eth = Surbtc.get_eth_price
       unless current_eth
-        current_eth = 700000
+        current_eth = Cryptocompare.get_eth_price
       end
     end
     return current_eth

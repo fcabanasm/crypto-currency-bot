@@ -3,7 +3,7 @@ require 'httparty'
 class Cryptomkt
   def self.get_eth_price
     response = Cryptomkt.get_eth_market
-    if response && response.parsed_response["status"] == "success"
+    if response && response.code == 200
       @data = response.parsed_response["data"][0]
       @last_price = @data["bid"].to_i
       #  "timestamp"=>"2017-11-05T13:32:57.895292",
